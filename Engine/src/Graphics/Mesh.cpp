@@ -5,10 +5,6 @@
 #include <Events.h>
 #include <SceneVisitor.h>
 
-#include <Graphics/VertexBuffer.h>
-#include <Graphics/IndexBuffer.h>
-//#include <Material.h>
-
 #include <Graphics/GraphicsCommandBuffer.h>
 #include <Graphics/GraphicsPipelineState.h>
 

@@ -52,43 +52,4 @@ namespace Graphics
         DepthStencil,   // Must be a texture with a depth/stencil format.
         NumAttachmentPoints
     };
-
-    class ENGINE_DLL RenderTarget
-    {
-    public:
-
-        /**
-         * Attach a texture to the render target.
-         * The dimension of all textures attached to a render target
-         * must match.
-         *
-         * To remove a texture from an attachment point, just attach a NULL texture.
-         *
-         * The render target will be validated anytime RenderTarget::Bind is invoked.
-         * You can also check to see if a render target is valid by calling RenderTarget::IsValid
-         * A render target that is valid for one platform may not be valid for another
-         * (for example, if the maximum number of texture slots are exceeded).
-         * Check the documentation for the API you are using for details.
-         * @see https://msdn.microsoft.com/en-us/library/windows/desktop/ff476465(v=vs.85).aspx
-         * @see https://www.opengl.org/sdk/docs/man/html/glFramebufferTexture.xhtml
-         */
-        virtual void AttachTexture( AttachmentPoint attachment, std::shared_ptr<Texture> texture ) = 0;
-        virtual std::shared_ptr<Texture> GetTexture( AttachmentPoint attachment ) const = 0;
-
-        /**
-         * Resize all of the textures associated with this render target.
-         */
-        virtual void Resize( uint16_t width, uint16_t height ) = 0;
-
-        /**
-         * This event is fired when one of the attachment points of the 
-         * render target have changed. This allows pipeline state objects
-         * to update themselves when the render target changes.
-         */
-        Core::Event AttachmentChanged;
-
-    protected:
-        virtual void OnAttachmentChanged( Core::EventArgs& e );
-
-    };
 }

@@ -30,25 +30,24 @@
  *  @brief Byte address buffer that can be bound to a ByteAddressBuffer or RWByteAddressBuffer in an HLSL shader.
  */
 
-#include "../ByteAddressBuffer.h"
 #include "BufferDX12.h"
 
 namespace Graphics
 {
     class DeviceDX12;
 
-    class ByteAddressBufferDX12 : public BufferDX12, public virtual ByteAddressBuffer, public std::enable_shared_from_this<ByteAddressBufferDX12>
+    class ByteAddressBufferDX12 : public BufferDX12, public std::enable_shared_from_this<ByteAddressBufferDX12>
     {
     public:
         ByteAddressBufferDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~ByteAddressBufferDX12();
+        ~ByteAddressBufferDX12();
 
-        virtual void SetName( const std::wstring& name ) override
+        void SetName( const std::wstring& name )
         {
             BufferDX12::SetName( name );
         }
 
-        virtual ResourceState GetResourceState() const
+        ResourceState GetResourceState() const
         {
             return BufferDX12::GetResourceState();
         }
@@ -56,16 +55,13 @@ namespace Graphics
         /**
          * Get the size of the buffer in bytes.
          */
-        virtual size_t GetBufferSize() const override;
+        size_t GetBufferSize() const;
 
-        virtual void CreateViews( size_t numElements, size_t elementSize ) override;
+        void CreateViews( size_t numElements, size_t elementSize );
 
-        virtual D3D12_CPU_DESCRIPTOR_HANDLE GetShaderResourceView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t index = 0 ) override;
-        virtual D3D12_CPU_DESCRIPTOR_HANDLE GetUnorderedAccessView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t index = 0 ) override;
+        D3D12_CPU_DESCRIPTOR_HANDLE GetShaderResourceView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t index = 0 );
+        D3D12_CPU_DESCRIPTOR_HANDLE GetUnorderedAccessView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t index = 0 );
 
-    protected:
-
-    private:
         size_t m_BufferSize;
 
         D3D12_CPU_DESCRIPTOR_HANDLE m_d3d12ShaderResourceView;

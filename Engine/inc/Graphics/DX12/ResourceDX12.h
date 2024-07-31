@@ -31,30 +31,32 @@
  */
 
 #include "../Resource.h"
+#include "../GraphicsEnums.h"
+#include "../../EngineDefines.h"
 
 namespace Graphics
 {
     class DeviceDX12;
     class GraphicsCommandBufferDX12;
 
-    class ResourceDX12 : public virtual Resource
+    class ResourceDX12
     {
     public:
 
         ResourceDX12( std::shared_ptr<DeviceDX12> device );
         ResourceDX12( std::shared_ptr<DeviceDX12> device, Microsoft::WRL::ComPtr<ID3D12Resource> d3d12Resource, D3D12_RESOURCE_STATES state = D3D12_RESOURCE_STATE_COMMON, uint64_t offset = 0 );
-        virtual ~ResourceDX12();
+        ~ResourceDX12();
 
         /**
          * Set the name of the internal resource.
          * Primarily used for debugging.
          */
-        virtual void SetName( const std::wstring& name ) override;
+        void SetName( const std::wstring& name );
 
         /**
          * Get the current state of the resource.
          */
-        virtual ResourceState GetResourceState() const override;
+        ResourceState GetResourceState() const;
 
 
         Microsoft::WRL::ComPtr<ID3D12Resource> GetD3D12Resource() const;
@@ -63,11 +65,11 @@ namespace Graphics
         D3D12_RESOURCE_STATES GetD3D12ResourceState() const;
         D3D12_GPU_VIRTUAL_ADDRESS GetD3D12GPUVirtualAddress() const;
 
-        virtual void CreateViews( size_t numElements, size_t elementSize );
+        void CreateViews( size_t numElements, size_t elementSize );
         
-        virtual D3D12_CPU_DESCRIPTOR_HANDLE GetConstantBufferView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 );
-        virtual D3D12_CPU_DESCRIPTOR_HANDLE GetShaderResourceView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 );
-        virtual D3D12_CPU_DESCRIPTOR_HANDLE GetUnorderedAccessView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 );
+        D3D12_CPU_DESCRIPTOR_HANDLE GetConstantBufferView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 );
+        D3D12_CPU_DESCRIPTOR_HANDLE GetShaderResourceView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 );
+        D3D12_CPU_DESCRIPTOR_HANDLE GetUnorderedAccessView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 );
 
     protected:
         friend class GraphicsCommandBufferDX12;

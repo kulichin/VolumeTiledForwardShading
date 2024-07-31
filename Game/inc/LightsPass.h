@@ -6,7 +6,6 @@
 #include <Graphics/SpotLight.h>
 #include <Graphics/DirectionalLight.h>
 
-#include <Graphics/Device.h>
 #include <Graphics/GraphicsPipelineState.h>
 #include <Graphics/Material.h>
 #include <Graphics/Scene.h>

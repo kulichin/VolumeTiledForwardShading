@@ -36,7 +36,7 @@ namespace Graphics
 {
     class DeviceDX12;
 
-    class QueryDX12 : public Query
+    class QueryDX12
     {
     public:
         QueryDX12( std::shared_ptr<DeviceDX12> device, QueryType queryType, uint32_t numQueries );
@@ -44,7 +44,7 @@ namespace Graphics
         /**
         * What type of query this is.
         */
-        virtual QueryType GetQueryType() override;
+        QueryType GetQueryType();
 
         /**
         * Retrieve the query results from the query object.
@@ -57,8 +57,8 @@ namespace Graphics
         * you can query the current frames result but will almost always result in a GPU stall.
         * IMPORTANT: Be sure to check the QueryResult::IsValid flag before using the result.
         */
-        virtual QueryResult GetQueryResult( int64_t index, std::shared_ptr<ComputeCommandQueue> commandQueue = nullptr ) override;
-        virtual std::vector<QueryResult> GetQueryResults( uint64_t startIndex, uint64_t numQueries = 1, std::shared_ptr<ComputeCommandQueue> commandQueue = nullptr ) override;
+        QueryResult GetQueryResult( int64_t index, std::shared_ptr<ComputeCommandQueue> commandQueue = nullptr );
+        std::vector<QueryResult> GetQueryResults( uint64_t startIndex, uint64_t numQueries = 1, std::shared_ptr<ComputeCommandQueue> commandQueue = nullptr );
 
 
         /**
@@ -67,7 +67,7 @@ namespace Graphics
         * multi-buffered queries this method will return the number of buffered query
         * results that are available.
         */
-        virtual uint32_t GetQueryCount() const override;
+        uint32_t GetQueryCount() const;
 
         Microsoft::WRL::ComPtr<ID3D12QueryHeap> GetD3D12QueryHeap() const;
         D3D12_QUERY_TYPE GetD3D12QueryType() const;

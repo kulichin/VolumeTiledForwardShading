@@ -1,36 +1,38 @@
 #pragma once
 
-#include "../ShaderSignature.h"
+#include "../../EngineDefines.h"
+#include "../GraphicsEnums.h"
 
 namespace Graphics
 {
     class DeviceDX12;
+    class SamplerDX12;
 
-    class ShaderSignatureDX12 : public ShaderSignature
+    class ShaderSignatureDX12
     {
     public:
         ShaderSignatureDX12( std::shared_ptr<DeviceDX12> device );
         ShaderSignatureDX12( std::shared_ptr<DeviceDX12> device, Microsoft::WRL::ComPtr<ID3DBlob> rootSignatureBlob );
-        virtual ~ShaderSignatureDX12();
+        ~ShaderSignatureDX12();
 
-        virtual ShaderSignature& operator=( const ShaderSignature& rhs ) override;
+        ShaderSignature& operator=( const ShaderSignature& rhs );
 
-        virtual const ParameterList& GetParameters() const override;
-        virtual void SetParameters( const ParameterList& parameterList ) override;
+        const ParameterList& GetParameters() const;
+        void SetParameters( const ParameterList& parameterList );
 
-        virtual const ShaderParameter& GetParameter( unsigned int index ) const override;
-        virtual void SetParameter( unsigned int index, const ShaderParameter& parameter ) override;
+        const ShaderParameter& GetParameter( unsigned int index ) const;
+        void SetParameter( unsigned int index, const ShaderParameter& parameter );
 
         /**
          * Return the number of parameters in the shader signature.
          */
-        virtual uint32_t GetNumParameters() const override;
+        uint32_t GetNumParameters() const;
 
         /**
         * Get or set a shader parameter at a particular slot in the shader signature.
         */
-        virtual ShaderParameter& operator[]( unsigned int index ) override;
-        virtual const ShaderParameter& operator[]( unsigned int index ) const override;
+        ShaderParameter& operator[]( unsigned int index );
+        const ShaderParameter& operator[]( unsigned int index ) const;
 
         /**
         * Set a static sampler defined in the shader signature.
@@ -40,13 +42,13 @@ namespace Graphics
         * @param registerSpace The register space to assign the sampler. Default is register space 0.
         * @param shaderVisibility Which stages of the rendering pipeline to bind this sampler to. Default it to bind it to every shader stage.
         */
-        virtual void SetStaticSampler( uint32_t slotID, std::shared_ptr<Sampler> sampler, uint32_t shaderRegister, ShaderType shaderVisibility = ShaderType::All, uint32_t registerSpace = 0 ) override;
-        virtual std::shared_ptr<Sampler> GetStaticSampler( uint32_t slotID ) const override;
+        void SetStaticSampler( uint32_t slotID, std::shared_ptr<SamplerDX12> sampler, uint32_t shaderRegister, ShaderType shaderVisibility = ShaderType::All, uint32_t registerSpace = 0 );
+        std::shared_ptr<Sampler> GetStaticSampler( uint32_t slotID ) const;
 
         /**
          * Return the number of static samplers in the shader signature.
          */
-        virtual uint32_t GetNumStaticSamplers() const override;
+        uint32_t GetNumStaticSamplers() const;
 
         Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateRootSignature( const D3D12_ROOT_SIGNATURE_DESC& rootSignatureDesc );
 
@@ -58,7 +60,7 @@ namespace Graphics
     private:
         struct StaticSampler
         {
-            std::shared_ptr<Sampler> Sampler;
+            std::shared_ptr<SamplerDX12> Sampler;
             D3D12_STATIC_SAMPLER_DESC StaticSamplerDesc;
 
             StaticSampler()

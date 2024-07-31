@@ -41,42 +41,43 @@ namespace Graphics
     class DeviceDX12;
     class RenderTargetDX12;
     class ShaderSignatureDX12;
+    class ShaderDX12;
 
-    class GraphicsPipelineStateDX12 : public GraphicsPipelineState, public std::enable_shared_from_this<GraphicsPipelineStateDX12>
+    class GraphicsPipelineStateDX12 : public std::enable_shared_from_this<GraphicsPipelineStateDX12>
     {
     public:
         GraphicsPipelineStateDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~GraphicsPipelineStateDX12();
+        ~GraphicsPipelineStateDX12();
 
-        virtual void SetShader( ShaderType type, std::shared_ptr<Shader> shader ) override;
-        virtual std::shared_ptr<Shader> GetShader( ShaderType type ) const override;
-        virtual const ShaderMap& GetShaders() const override;
+        void SetShader( ShaderType type, std::shared_ptr<ShaderDX12> shader );
+        std::shared_ptr<ShaderDX12> GetShader( ShaderType type ) const;
+        const ShaderMap& GetShaders() const;
 
-        virtual void SetShaderSignature( std::shared_ptr<ShaderSignature> shaderSignature ) override;
-        virtual std::shared_ptr<ShaderSignature> GetShaderSignature() const override;
+        void SetShaderSignature( std::shared_ptr<ShaderSignatureDX12> shaderSignature );
+        std::shared_ptr<ShaderSignatureDX12> GetShaderSignature() const;
 
-        virtual void SetRasterizerState( const RasterizerState& rasterizerState ) override;
-        virtual RasterizerState& GetRasterizerState() override;
+        void SetRasterizerState( const RasterizerState& rasterizerState );
+        RasterizerState& GetRasterizerState();
 
-        virtual void SetDepthStencilState( const DepthStencilState& depthStencilState ) override;
-        virtual DepthStencilState& GetDepthStencilState() override;
+        void SetDepthStencilState( const DepthStencilState& depthStencilState );
+        DepthStencilState& GetDepthStencilState();
 
-        virtual void SetBlendState( const BlendState& blendState ) override;
-        virtual BlendState& GetBlendState() override;
+        void SetBlendState( const BlendState& blendState );
+        BlendState& GetBlendState();
 
-        virtual void SetRenderTarget( std::shared_ptr<RenderTarget> renderTarget ) override;
-        virtual std::shared_ptr<RenderTarget> GetRenderTarget() override;
+        void SetRenderTarget( std::shared_ptr<RenderTargetDX12> renderTarget );
+        std::shared_ptr<RenderTargetDX12> GetRenderTarget();
 
-        virtual void SetPrimitiveTopology( PrimitiveTopology primTopology ) override;
-        virtual PrimitiveTopology GetPrimitiveTopology() const override;
+        void SetPrimitiveTopology( PrimitiveTopology primTopology );
+        PrimitiveTopology GetPrimitiveTopology() const;
 
-        virtual void SetPatchControlPoints( uint32_t patchControlPoints ) override;
-        virtual uint32_t GetPatchControlPoints() const override;
+        void SetPatchControlPoints( uint32_t patchControlPoints );
+        uint32_t GetPatchControlPoints() const;
 
-        virtual void SetPrimitiveRestart( PrimitiveRestart primitiveRestart ) override;
-        virtual PrimitiveRestart GetPrimitiveRestart() const override;
+        void SetPrimitiveRestart( PrimitiveRestart primitiveRestart );
+        PrimitiveRestart GetPrimitiveRestart() const;
 
-        Microsoft::WRL::ComPtr<ID3D12PipelineState> GetD3D12PipelineState() const;
+        Microsoft::WRL::ComPtr<ID3D12PipelineStateDX12> GetD3D12PipelineState() const;
 
         void Bind( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer );
 
@@ -84,9 +85,9 @@ namespace Graphics
 
         // Called if any of the shaders attached to this pipeline state object
         // have been modified.
-        virtual void OnFileChanged( Core::FileChangeEventArgs& e );
+        void OnFileChanged( Core::FileChangeEventArgs& e );
         // Called if the attachments on the render target have changed.
-        virtual void OnAttachmentChanged( Core::EventArgs& e );
+        void OnAttachmentChanged( Core::EventArgs& e );
 
     private:
        

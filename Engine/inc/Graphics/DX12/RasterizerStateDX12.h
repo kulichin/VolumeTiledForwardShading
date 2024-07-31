@@ -30,55 +30,54 @@
  *  @brief DirectX 12 Rasterizer state description.
  */
 
-#include "../RasterizerState.h"
 
 namespace Graphics
 {
     class GraphicsCommandBufferDX12;
 
-    class RasterizerStateDX12 : public RasterizerState
+    class RasterizerStateDX12
     {
     public:
         RasterizerStateDX12();
-        virtual ~RasterizerStateDX12();
+        ~RasterizerStateDX12();
 
-        virtual void SetFillMode( FillMode frontFace = FillMode::Solid, FillMode backFace = FillMode::Solid ) override;
-        virtual void GetFillMode( FillMode& frontFace, FillMode& backFace ) const override;
+        void SetFillMode( FillMode frontFace = FillMode::Solid, FillMode backFace = FillMode::Solid );
+        void GetFillMode( FillMode& frontFace, FillMode& backFace ) const;
 
-        virtual void SetCullMode( CullMode cullMode = CullMode::Back ) override;
-        virtual CullMode GetCullMode() const override;
+        void SetCullMode( CullMode cullMode = CullMode::Back );
+        CullMode GetCullMode() const;
 
-        virtual void SetFrontFacing( FrontFace frontFace = FrontFace::CounterClockwise ) override;
-        virtual FrontFace GetFrontFacing() const override;
+        void SetFrontFacing( FrontFace frontFace = FrontFace::CounterClockwise );
+        FrontFace GetFrontFacing() const;
 
-        virtual void SetDepthBias( float depthBias = 0.0f, float slopeBias = 0.0f, float biasClamp = 0.0f ) override;
-        virtual void GetDepthBias( float& depthBias, float& slopeBias, float& biasClamp ) const override;
+        void SetDepthBias( float depthBias = 0.0f, float slopeBias = 0.0f, float biasClamp = 0.0f );
+        void GetDepthBias( float& depthBias, float& slopeBias, float& biasClamp ) const;
 
-        virtual void SetDepthClipEnabled( bool depthClipEnabled = true ) override;
-        virtual bool GetDepthClipEnabled() const override;
+        void SetDepthClipEnabled( bool depthClipEnabled = true );
+        bool GetDepthClipEnabled() const;
 
-        virtual void SetViewport( const Viewport& viewport ) override;
-        virtual void SetViewports( const std::vector<Viewport>& viewports ) override;
-        virtual const std::vector<Viewport>& GetViewports() override;
+        void SetViewport( const Viewport& viewport );
+        void SetViewports( const std::vector<Viewport>& viewports );
+        const std::vector<Viewport>& GetViewports();
 
-        virtual void SetScissorEnabled( bool scissorEnable = false ) override;
-        virtual bool GetScissorEnabled() const override;
+        void SetScissorEnabled( bool scissorEnable = false );
+        bool GetScissorEnabled() const;
 
-        virtual void SetScissorRect( const Rect& rect ) override;
-        virtual void SetScissorRects( const std::vector<Rect>& rects ) override;
-        virtual const std::vector<Rect>& GetScissorRects() const override;
+        void SetScissorRect( const Rect& rect );
+        void SetScissorRects( const std::vector<Rect>& rects );
+        const std::vector<Rect>& GetScissorRects() const;
 
-        virtual void SetMultisampleEnabled( bool multisampleEnabled = false ) override;
-        virtual bool GetMultisampleEnabled() const override;
+        void SetMultisampleEnabled( bool multisampleEnabled = false );
+        bool GetMultisampleEnabled() const;
 
-        virtual void SetAntialiasedLineEnable( bool antialiasedLineEnable ) override;
-        virtual bool GetAntialiasedLineEnable() const override;
+        void SetAntialiasedLineEnable( bool antialiasedLineEnable );
+        bool GetAntialiasedLineEnable() const;
 
-        virtual void SetForcedSampleCount( uint8_t forcedSampleCount = 0 ) override;
-        virtual uint8_t GetForcedSampleCount() override;
+        void SetForcedSampleCount( uint8_t forcedSampleCount = 0 );
+        uint8_t GetForcedSampleCount();
 
-        virtual void SetConservativeRasterizationEnabled( bool conservativeRasterizationEnabled = false ) override;
-        virtual bool GetConservativeRasterizationEnabled() const override;
+        void SetConservativeRasterizationEnabled( bool conservativeRasterizationEnabled = false );
+        bool GetConservativeRasterizationEnabled() const;
 
         // If the rasterizer state has been modified since it was last retrieved,
         // the PSO that uses this rasterizer state needs to be updated.
@@ -89,9 +88,6 @@ namespace Graphics
         // Bind rasterizer state that is not part of a pipeline state object.
         void Bind( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer );
 
-    protected:
-
-    private:
         D3D12_RASTERIZER_DESC m_d3d12RasterizerDesc;
 
         std::vector<D3D12_RECT> m_d3d12Rects;

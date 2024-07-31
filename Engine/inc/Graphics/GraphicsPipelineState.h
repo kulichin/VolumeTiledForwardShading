@@ -32,47 +32,10 @@
  *  and depth/stencil states among other things....
  */
 
-#include "Shader.h"
+#include "DX12/ShaderDX12.h"
 #include "GraphicsEnums.h"
 
 namespace Graphics
 {
-    using ShaderMap = std::map< ShaderType, std::shared_ptr<Shader> >;
-
-    class RasterizerState;
-    class DepthStencilState;
-    class BlendState;
-    class RenderTarget;
-
-    class ENGINE_DLL GraphicsPipelineState
-    {
-    public:
-        virtual void SetShader( ShaderType type, std::shared_ptr<Shader> shader ) = 0;
-        virtual std::shared_ptr<Shader> GetShader( ShaderType type ) const = 0;
-        virtual const ShaderMap& GetShaders() const = 0;
-
-        virtual void SetShaderSignature( std::shared_ptr<ShaderSignature> shaderSignature ) = 0;
-        virtual std::shared_ptr<ShaderSignature> GetShaderSignature() const = 0;
-
-        virtual void SetRasterizerState( const RasterizerState& rasterizerState ) = 0;
-        virtual RasterizerState& GetRasterizerState() = 0;
-
-        virtual void SetDepthStencilState( const DepthStencilState& depthStencilState ) = 0;
-        virtual DepthStencilState& GetDepthStencilState() = 0;
-
-        virtual void SetBlendState( const BlendState& blendState ) = 0;
-        virtual BlendState& GetBlendState() = 0;
-
-        virtual void SetRenderTarget( std::shared_ptr<RenderTarget> renderTarget ) = 0;
-        virtual std::shared_ptr<RenderTarget> GetRenderTarget() = 0;
-
-        virtual void SetPrimitiveTopology( PrimitiveTopology primTopology ) = 0;
-        virtual PrimitiveTopology GetPrimitiveTopology() const = 0;
-        
-        virtual void SetPatchControlPoints( uint32_t patchControlPoints ) = 0;
-        virtual uint32_t GetPatchControlPoints() const = 0;
-
-        virtual void SetPrimitiveRestart( PrimitiveRestart primitiveRestart ) = 0;
-        virtual PrimitiveRestart GetPrimitiveRestart() const = 0;
-    };
+    using ShaderMap = std::map< ShaderType, std::shared_ptr<ShaderDX12> >;
 }

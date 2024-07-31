@@ -493,3 +493,8 @@ std::shared_ptr<SceneNode> SceneDX12::ImportSceneNode( std::shared_ptr<CopyComma
 
     return pNode;
 }
+
+void SceneDX12::OnLoadingProgress( Core::ProgressEventArgs& e )
+{
+    LoadingProgress( e );
+}

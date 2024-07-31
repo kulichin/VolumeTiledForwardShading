@@ -1,10 +1,10 @@
 #include <EnginePCH.h>
 
 #include <Graphics/Profiler.h>
-#include <Graphics/Device.h>
-#include <Graphics/Query.h>
-#include <Graphics/ComputeCommandQueue.h>
-#include <Graphics/ComputeCommandBuffer.h>
+#include <Graphics/DX12/DeviceDX12.h>
+#include <Graphics/DX12/QueryDX12.h>
+#include <Graphics/DX12/ComputeCommandQueueDX12.h>
+#include <Graphics/DX12/ComputeCommandBufferDX12.h>
 
 #include <Common.h>
 #include <ProfilerVisitor.h>

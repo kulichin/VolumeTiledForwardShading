@@ -133,3 +133,8 @@ void RenderTargetDX12::Bind( std::shared_ptr<GraphicsCommandBufferDX12> commandB
 
     commandList->OMSetRenderTargets( numRenderTargetDescriptors, renderTargetDescriptors, FALSE, &depthStencilDescriptor );
 }
+
+void RenderTargetDX12::OnAttachmentChanged( Core::EventArgs& e )
+{
+    AttachmentChanged( e );
+}

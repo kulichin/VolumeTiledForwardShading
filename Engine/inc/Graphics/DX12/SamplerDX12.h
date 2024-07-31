@@ -1,48 +1,30 @@
 #pragma once
 
-#include "../Sampler.h"
+#include "../../EngineDefines.h"
 
 namespace Graphics
 {
     class DeviceDX12;
 
-    class SamplerDX12 : public Sampler
+    class SamplerDX12
     {
     public:
         SamplerDX12( std::shared_ptr<DeviceDX12> device );
         SamplerDX12( std::shared_ptr<DeviceDX12> device, const D3D12_STATIC_SAMPLER_DESC& d3d12StaticSamplerDesc );
 
-        virtual ~SamplerDX12();
+        ~SamplerDX12();
 
-        virtual void SetFilter( Filter minFilter = Filter::Nearest, Filter magFilter = Filter::Nearest, Filter mipFilter = Filter::Nearest ) override;
-        virtual void GetFilter( Filter& minFilter, Filter& magFilter, Filter& mipFilter ) const override;
-
-        virtual void SetWrapMode( WrapMode u = WrapMode::Repeat, WrapMode v = WrapMode::Repeat, WrapMode w = WrapMode::Repeat ) override;
-        virtual void GetWrapMode( WrapMode& u, WrapMode& v, WrapMode& w ) const override;
-
-        virtual void SetCompareFunction( CompareFunction compareFunc = CompareFunction::Always ) override;
-        virtual CompareFunction GetCompareFunc() const override;
-
-        virtual void SetCompareMode( CompareMode compareMode = CompareMode::None ) override;
-        virtual CompareMode GetCompareMode() const override;
-
-        virtual void SetLODBias( float lodBias ) override;
-        virtual float GetLODBias() const override;
-
-        virtual void SetMinLOD( float minLOD ) override;
-        virtual float GetMinLOD() const override;
-
-        virtual void SetMaxLOD( float maxLOD ) override;
-        virtual float GetMaxLOD() const override;
-
-        virtual void SetBorderColor( const glm::vec4& borderColor ) override;
-        virtual glm::vec4 GetBorderColor() const override;
-
-        virtual void EnableAnisotropicFiltering( bool enabled ) override;
-        virtual bool IsAnisotropicFilteringEnabled() const override;
-
-        virtual void SetMaxAnisotropy( uint8_t maxAnisotropy ) override;
-        virtual uint8_t GetMaxAnisotropy() const override;
+        void SetFilter( Filter minFilter = Filter::Nearest, Filter magFilter = Filter::Nearest, Filter mipFilter = Filter::Nearest );
+        void SetWrapMode( WrapMode u = WrapMode::Repeat, WrapMode v = WrapMode::Repeat, WrapMode w = WrapMode::Repeat );
+        void SetCompareFunction( CompareFunction compareFunc = CompareFunction::Always );
+        void SetCompareMode( CompareMode compareMode = CompareMode::None );
+        void SetLODBias( float lodBias );
+        void SetMinLOD( float minLOD );
+        void SetMaxLOD( float maxLOD );
+        void SetBorderColor( const glm::vec4& borderColor );
+        void EnableAnisotropicFiltering( bool enabled );
+        bool IsAnisotropicFilteringEnabled() const;
+        void SetMaxAnisotropy( uint8_t maxAnisotropy );
 
         D3D12_CPU_DESCRIPTOR_HANDLE GetSamplerDescriptor();
         D3D12_STATIC_SAMPLER_DESC GetStaticSamplerDesc();

@@ -37,18 +37,18 @@ namespace Graphics
 {
     class DeviceDX12;
 
-    class ConstantBufferDX12 : public BufferDX12, public virtual ConstantBuffer, public std::enable_shared_from_this<ConstantBufferDX12>
+    class ConstantBufferDX12 : public BufferDX12, public std::enable_shared_from_this<ConstantBufferDX12>
     {
     public:
         ConstantBufferDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~ConstantBufferDX12();
+        ~ConstantBufferDX12();
 
-        virtual void SetName( const std::wstring& name ) override
+        void SetName( const std::wstring& name )
         {
             BufferDX12::SetName( name );
         }
 
-        virtual ResourceState GetResourceState() const
+        ResourceState GetResourceState() const
         {
             return BufferDX12::GetResourceState();
         }
@@ -56,15 +56,10 @@ namespace Graphics
         /**
         * Get the size in bytes of the constant buffer.
         */
-        virtual size_t GetSizeInBytes() const override;
+        size_t GetSizeInBytes() const;
+        void CreateViews( size_t numElements, size_t elementSize );
+        D3D12_CPU_DESCRIPTOR_HANDLE GetConstantBufferView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 );
 
-        virtual void CreateViews( size_t numElements, size_t elementSize ) override;
-
-        virtual D3D12_CPU_DESCRIPTOR_HANDLE GetConstantBufferView( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer, uint32_t subresource = 0 ) override;
-
-    protected:
-
-    private:
         size_t m_SizeInBytes;
 
         D3D12_CPU_DESCRIPTOR_HANDLE m_d3d12ConstantBufferView;

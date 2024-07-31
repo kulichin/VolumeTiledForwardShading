@@ -36,28 +36,28 @@ namespace Graphics
 {
     class DeviceDX12;
 
-    class IndirectCommandSignatureDX12 : public virtual IndirectCommandSignature
+    class IndirectCommandSignatureDX12
     {
     public:
         IndirectCommandSignatureDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~IndirectCommandSignatureDX12();
+        ~IndirectCommandSignatureDX12();
 
         /**
         * Specify the stride in bytes of the commands that are specified in the
         * argument buffer that is passed to the ComputeCommandBuffer::ExecuteIndirect function.
         */
-        virtual void SetByteStride( size_t byteStride ) override;
-        virtual size_t GetByteStride() const override;
+        void SetByteStride( size_t byteStride );
+        size_t GetByteStride() const;
 
         /**
         * Append a command argument to the command signature.
         */
-        virtual void AppendCommandArgument( const IndirectArgument& indirectArgument ) override;
+        void AppendCommandArgument( const IndirectArgument& indirectArgument );
 
         /**
         * Get the command arguments that are associated with this command signature.
         */
-        virtual const IndirectArguments& GetCommandArguments() const override;
+        const IndirectArguments& GetCommandArguments() const;
 
         Microsoft::WRL::ComPtr<ID3D12CommandSignature> GetD3D12CommandSignature();
 

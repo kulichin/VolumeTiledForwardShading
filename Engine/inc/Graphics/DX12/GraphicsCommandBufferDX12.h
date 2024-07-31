@@ -30,6 +30,13 @@
  *  @brief DX12 Graphics command buffer.
  */
 
+#include "QueryDX12.h"
+#include "IndexBufferDX12.h"
+#include "VertexBufferDX12.h"
+#include "TextureDX12.h"
+#include "ByteAddressBufferDX12.h"
+#include "StructuredBufferDX12.h"
+#include "IndirectCommandSignatureDX12.h"
 #include "../GraphicsCommandBuffer.h"
 
 namespace Graphics
@@ -42,101 +49,105 @@ namespace Graphics
     class DynamicDescriptorHeapDX12;
     class ResourceDX12;
     class ShaderSignatureDX12;
+    class CommandQueueDX12;
+    class GraphicsPipelineStateDX12;
+    class ConstantBufferDX12;
+    class ComputePipelineStateDX12;
 
-    class GraphicsCommandBufferDX12 : public GraphicsCommandBuffer, public std::enable_shared_from_this<GraphicsCommandBufferDX12>
+    class GraphicsCommandBufferDX12 : public std::enable_shared_from_this<GraphicsCommandBufferDX12>
     {
     public:
         GraphicsCommandBufferDX12( std::shared_ptr<DeviceDX12> device, 
                                    std::shared_ptr<GraphicsCommandQueueDX12> queue,
                                    D3D12_COMMAND_LIST_TYPE type,
                                    UINT nodeMask = 1 );
-        virtual ~GraphicsCommandBufferDX12();
+        ~GraphicsCommandBufferDX12();
 
         /**
          * Get the command queue associated with this command buffer.
          */
-        virtual std::shared_ptr<CommandQueue> GetCommandQueue() const override;
+        std::shared_ptr<CommandQueueDX12> GetCommandQueue() const;
 
         /**
         * Transition a resource.
         */
         void TransitionResoure( std::shared_ptr<ResourceDX12> resourceDX12, ResourceState state, bool flushBarriers = false );
-        virtual void TransitionResoure( std::shared_ptr<Resource> resource, ResourceState state, bool flushBarriers = false ) override;
+        void TransitionResoure( std::shared_ptr<ResourceDX12> resource,     ResourceState state, bool flushBarriers = false );
 
         /**
         * Add a resource barrier.
         */
         void AddResourceBarrier( std::shared_ptr<ResourceDX12> resourceBeforeDX12, std::shared_ptr<ResourceDX12> resourceAfterDX12, ResourceBarrier barrier, bool flushBarriers = false );
-        virtual void AddResourceBarrier( std::shared_ptr<Resource> resourceBefore, std::shared_ptr<Resource> resourceAfter, ResourceBarrier barrier, bool flushBarriers = false ) override;
+        void AddResourceBarrier( std::shared_ptr<ResourceDX12> resourceBefore,     std::shared_ptr<ResourceDX12> resourceAfter,     ResourceBarrier barrier, bool flushBarriers = false );
 
         /**
          * Add a UAV barrier.
          */
-        virtual void AddUAVBarrier( std::shared_ptr<Resource> uavResource, bool flushBarriers = false ) override;
+        void AddUAVBarrier( std::shared_ptr<ResourceDX12> uavResource, bool flushBarriers = false );
 
         /**
         * Commit resource barriers.
         */
-        virtual void FlushResourceBarriers() override;
+        void FlushResourceBarriers();
 
         /**
          * Begin a GPU query.
          */
-        virtual void BeginQuery( std::shared_ptr<Query> query, uint32_t index ) override;
+        void BeginQuery( std::shared_ptr<QueryDX12> query, uint32_t index );
 
         /**
          * End a GPU query.
          */
-        virtual void EndQuery( std::shared_ptr<Query> query, uint32_t index ) override;
+        void EndQuery( std::shared_ptr<QueryDX12> query, uint32_t index );
 
         /**
          * Begin a profiling event.
          */
-        virtual void BeginProfilingEvent( const std::wstring& name ) override;
+        void BeginProfilingEvent( const std::wstring& name );
 
         /**
          * End a profiling event.
          */
-        virtual void EndProfilingEvent( const std::wstring& name ) override;
+        void EndProfilingEvent( const std::wstring& name );
 
         /**
          * Bind a render target to the rendering pipeline.
          */
-        virtual void BindRenderTarget( std::shared_ptr<RenderTarget> renderTarget ) override;
+        void BindRenderTarget( std::shared_ptr<RenderTargetDX12> renderTarget );
 
         /**
         * Set the graphics pipeline state object.
         */
-        virtual void BindGraphicsPipelineState( std::shared_ptr<GraphicsPipelineState> graphicsPipelineState ) override;
+        void BindGraphicsPipelineState( std::shared_ptr<GraphicsPipelineStateDX12> graphicsPipelineState );
 
         /**
          * Set the compute pipeline state object.
          */
-        virtual void BindComputePipelineState( std::shared_ptr<ComputePipelineState> pipelineState ) override;
+        void BindComputePipelineState( std::shared_ptr<ComputePipelineStateDX12> pipelineState );
 
         /**
          * Bind a shader signature to the compute pipeline.
          */
-        virtual void BindComputeShaderSignature( std::shared_ptr<ShaderSignature> shaderSignature ) override;
+        void BindComputeShaderSignature( std::shared_ptr<ShaderSignatureDX12> shaderSignature );
 
         /**
          * Bind a shader signature to the graphics rendering pipeline.
          */
-        virtual void BindGraphicsShaderSignature( std::shared_ptr<ShaderSignature> shaderSignature ) override;
+        void BindGraphicsShaderSignature( std::shared_ptr<ShaderSignatureDX12> shaderSignature );
 
         /**
          * Bind a single shader argument to the compute pipeline.
          * @param slotID The shader signature slot to bind the argument to.
          * @param argument The shader resource to bind.
          */
-        virtual void BindComputeShaderArgument( uint32_t slotID, std::shared_ptr<Resource> argument ) override;
+        void BindComputeShaderArgument( uint32_t slotID, std::shared_ptr<ResourceDX12> argument );
 
         /**
          * Bind a single argument to the graphics pipeline.
          * @param slotID The index of the shader signature to bind to.
          * @param shaderArgument The shader argument to bind.
          */
-        virtual void BindGraphicsShaderArgument( uint32_t slotID, std::shared_ptr<Resource> shaderArgument ) override;
+        void BindGraphicsShaderArgument( uint32_t slotID, std::shared_ptr<ResourceDX12> shaderArgument );
 
         /**
          * Bind a shader parameter argument to the compute pipeline.
@@ -144,7 +155,7 @@ namespace Graphics
          * @param offset The staring offset in the table range.
          * @param shaderParameter The shader parameter to bind (as an argument) to the compute pipeline.
          */
-        virtual void BindComputeShaderArguments( uint32_t slotID, uint32_t offset, const ShaderArguments& shaderArguments ) override;
+        void BindComputeShaderArguments( uint32_t slotID, uint32_t offset, const ShaderArguments& shaderArguments );
 
         /**
         * Bind a range of shader arguments to the graphics pipeline.
@@ -152,17 +163,17 @@ namespace Graphics
         * @param offset The staring offset in the table range.
         * @param shaderArguments The shader arguments to bind to the graphics pipeline.
         */
-        virtual void BindGraphicsShaderArguments( uint32_t slotID, uint32_t offset, const ShaderArguments& shaderArguments ) override;
+        void BindGraphicsShaderArguments( uint32_t slotID, uint32_t offset, const ShaderArguments& shaderArguments );
 
         /**
          * Bind 32-bit constants to the compute pipeline.
          */
-        virtual void BindCompute32BitConstants( uint32_t slotID, uint32_t numConstants, const void* constants ) override;
+        void BindCompute32BitConstants( uint32_t slotID, uint32_t numConstants, const void* constants );
 
         /**
          * Bind 32-bit constants to the graphics pipeline.
          */
-        virtual void BindGraphics32BitConstants( uint32_t slotID, uint32_t numConstants, const void* constants ) override;
+        void BindGraphics32BitConstants( uint32_t slotID, uint32_t numConstants, const void* constants );
         
         /**
          * Bind a dynamic constant buffer data to the compute pipeline.
@@ -170,7 +181,7 @@ namespace Graphics
          * @param bufferSizeInBytes The size in bytes of the constant buffer.
          * @param bufferData A pointer to the constant buffer data.
          */
-        virtual void BindComputeDynamicConstantBuffer( uint32_t slotID, size_t bufferSizeInBytes, const void* bufferData ) override;
+        void BindComputeDynamicConstantBuffer( uint32_t slotID, size_t bufferSizeInBytes, const void* bufferData );
 
         /**
          * Bind a dynamic constant buffer data to the graphics pipeline.
@@ -178,7 +189,7 @@ namespace Graphics
          * @param bufferSizeInBytes The size in bytes of the constant buffer.
          * @param bufferData A pointer to the constant buffer data.
          */
-        virtual void BindGraphicsDynamicConstantBuffer( uint32_t slotID, size_t bufferSizeInBytes, const void* bufferData ) override;
+        void BindGraphicsDynamicConstantBuffer( uint32_t slotID, size_t bufferSizeInBytes, const void* bufferData );
 
         /**
          * Bind a dynamic structured buffer data to the compute pipeline.
@@ -187,7 +198,7 @@ namespace Graphics
          * @param elementSize The size of each element in the structured buffer.
          * @param bufferData A pointer to the constant buffer data.
          */
-        virtual void BindComputeDynamicStructuredBuffer( uint32_t slotID, size_t numElements, size_t elementSize, const void* bufferData ) override;
+        void BindComputeDynamicStructuredBuffer( uint32_t slotID, size_t numElements, size_t elementSize, const void* bufferData );
 
         /**
          * Bind a dynamic structured buffer data to the graphics pipeline.
@@ -196,92 +207,92 @@ namespace Graphics
          * @param elementSize The size of each element in the structured buffer.
          * @param bufferData A pointer to the constant buffer data.
          */
-        virtual void BindGraphicsDynamicStructuredBuffer( uint32_t slotID, size_t numElements, size_t elementSize, const void* bufferData ) override;
+        void BindGraphicsDynamicStructuredBuffer( uint32_t slotID, size_t numElements, size_t elementSize, const void* bufferData );
 
         /**
         * Bind an index buffer to the rendering pipeline.
         * @indexBuffer The index buffer object to bind to the rendering pipeline.
         * @offset The offset in bytes to the first index.
         */
-        virtual void BindIndexBuffer( std::shared_ptr<IndexBuffer> indexBuffer, size_t offset = 0 ) override;
+        void BindIndexBuffer( std::shared_ptr<IndexBufferDX12> indexBuffer, size_t offset = 0 );
 
         /**
         * Bind a dynamic index buffer to the rendering pipeline.
         */
-        virtual void BindDynamicIndexBuffer( size_t numIndicies, size_t indexSizeInBytes, const void* indexData ) override;
+        void BindDynamicIndexBuffer( size_t numIndicies, size_t indexSizeInBytes, const void* indexData );
 
         /**
         * Bind vertex buffer to the rendering pipeline.
         * @vertexBuffer The vertex buffer to bind to the rendering pipeline.
         */
-        virtual void BindVertexBuffer( uint32_t slotID, std::shared_ptr<VertexBuffer> vertexBuffer ) override;
+        void BindVertexBuffer( uint32_t slotID, std::shared_ptr<VertexBufferDX12> vertexBuffer );
 
         /**
         * Bind a dynamic vertex buffer to the rendering pipeline.
         */
-        virtual void BindDynamicVertexBuffer( uint32_t slotID, size_t numVertices, size_t vertexSizeInBytes, const void* vertexData ) override;
+        void BindDynamicVertexBuffer( uint32_t slotID, size_t numVertices, size_t vertexSizeInBytes, const void* vertexData );
 
         /**
          * Clear the contents of a GPU resource.
          */
-        virtual void ClearResourceFloat( std::shared_ptr<Resource> resource, const glm::vec4& clearValues = { 0.0f, 0.0f, 0.0f, 0.0f } ) override;
-        virtual void ClearResourceUInt( std::shared_ptr<Resource> resource, const glm::uvec4& clearValues = { 0, 0, 0, 0 } ) override;
+        void ClearResourceFloat( std::shared_ptr<ResourceDX12> resource, const glm::vec4& clearValues = { 0.0f, 0.0f, 0.0f, 0.0f } );
+        void ClearResourceUInt( std::shared_ptr<ResourceDX12> resource, const glm::uvec4& clearValues = { 0, 0, 0, 0 } );
 
         /**
         * Clear the contents of a render target texture.
         */
-        virtual void ClearTexture( std::shared_ptr<Texture> texture, const ClearColor& color = ClearColor::Black ) override;
+        void ClearTexture( std::shared_ptr<TextureDX12> texture, const ClearColor& color = ClearColor::Black );
 
         /**
         * Clear the contents of a depth/stencil texture.
         */
-        virtual void ClearDepthStencilTexture( std::shared_ptr<Texture> texture, ClearFlags clearFlags = ClearFlags::DepthStencil, float depth = 1.0f, uint8_t stencil = 0 ) override;
+        void ClearDepthStencilTexture( std::shared_ptr<TextureDX12> texture, ClearFlags clearFlags = ClearFlags::DepthStencil, float depth = 1.0f, uint8_t stencil = 0 );
 
         /**
         * Clear the contents of a render target.
         */
-        virtual void ClearRenderTarget( std::shared_ptr<RenderTarget> renderTarget, ClearFlags clearFlags = ClearFlags::All, const ClearColor& color = ClearColor::Black, float depth = 1.0f, uint8_t stencil = 0 ) override;
+        void ClearRenderTarget( std::shared_ptr<RenderTargetDX12> renderTarget, ClearFlags clearFlags = ClearFlags::All, const ClearColor& color = ClearColor::Black, float depth = 1.0f, uint8_t stencil = 0 );
 
         /**
         * Copy the contents of one resource to another.
         */
-        virtual void CopyResource( std::shared_ptr<Resource> dstResource, std::shared_ptr<Resource> srcResource ) override;
+        void CopyResource( std::shared_ptr<ResourceDX12> dstResource, std::shared_ptr<ResourceDX12> srcResource );
 
         /**
          * Resolve a multi-sampled resource into a single-sampled resource.
          */
-        virtual void ResolveMultisampleTexture( std::shared_ptr<Texture> dstTexture, uint32_t mip, uint32_t arraySlice, std::shared_ptr<Texture> srcTexture ) override;
+        void ResolveMultisampleTexture( std::shared_ptr<TextureDX12> dstTexture, uint32_t mip, uint32_t arraySlice, std::shared_ptr<TextureDX12> srcTexture );
 
 
         /**
          * Set the contents of a vertex buffer.
          */
-        virtual void SetVertexBuffer( std::shared_ptr<VertexBuffer> vertexBuffer, size_t numVertices, size_t vertexStride, const void* bufferData ) override;
+        void SetVertexBuffer( std::shared_ptr<VertexBufferDX12> vertexBuffer, size_t numVertices, size_t vertexStride, const void* bufferData );
 
         /**
         * Set the contents of an index buffer.
         */
-        virtual void SetIndexBuffer( std::shared_ptr<IndexBuffer> indexBuffer, size_t numIndicies, size_t indexSizeInBytes, const void * indexData ) override;
+        void SetIndexBuffer( std::shared_ptr<IndexBufferDX12> indexBuffer, size_t numIndicies, size_t indexSizeInBytes, const void * indexData );
 
         /**
          * Set the contents of a constant buffer.
          */
-        virtual void SetConstantBuffer( std::shared_ptr<ConstantBuffer> constantBuffer, size_t sizeInBytes, const void* bufferData ) override;
+        void SetConstantBuffer( std::shared_ptr<ConstantBufferDX12> constantBuffer, size_t sizeInBytes, const void* bufferData );
 
         /**
          * Set the contents of a byte address buffer.
          */
-        virtual void SetByteAddressBuffer( std::shared_ptr<ByteAddressBuffer> byteAddressBuffer, size_t sizeInBytes, const void* bufferData ) override;
+        void SetByteAddressBuffer( std::shared_ptr<ByteAddressBufferDX12> byteAddressBuffer, size_t sizeInBytes, const void* bufferData );
 
         /**
          * Set the contents of a structured buffer.
          */
-        virtual void SetStructuredBuffer( std::shared_ptr<StructuredBuffer> structuredBuffer, size_t numElements, size_t elementSize, const void* bufferData ) override;
+        void SetStructuredBuffer( std::shared_ptr<StructuredBufferDX12> structuredBuffer, size_t numElements, size_t elementSize, const void* bufferData );
 
         /**
          * Set the contents of a texture (sub) resource.
          */
-        virtual void SetTextureSubresource( std::shared_ptr<Texture> texture, uint32_t mip, uint32_t arraySlice, const void* pTextureData ) override;
+        void SetTextureSubresource( std::shared_ptr<TextureDX12> texture, uint32_t mip, uint32_t arraySlice, const void* pTextureData );
 
         /**
         * Draw non-indexed instanced.
@@ -290,7 +301,7 @@ namespace Graphics
         * @param instanceCount The number of instances to draw.
         * @param firstInstance The offset of the first instance to start drawing.
         */
-        virtual void Draw( uint32_t vertexCount, uint32_t firstVertex = 0, uint32_t instanceCount = 1, uint32_t firstInstance = 0 ) override;
+        void Draw( uint32_t vertexCount, uint32_t firstVertex = 0, uint32_t instanceCount = 1, uint32_t firstInstance = 0 );
 
         /**
         * Draw indexed instanced.
@@ -300,13 +311,13 @@ namespace Graphics
         * @param instanceCount The number of instances to draw.
         * @param firstInstance The offset of the first instance to start drawing.
         */
-        virtual void DrawIndexed( uint32_t indexCount, uint32_t firstIndex = 0, int32_t baseVertex = 0, uint32_t instanceCount = 1, uint32_t firstInstance = 0 ) override;
+        void DrawIndexed( uint32_t indexCount, uint32_t firstIndex = 0, int32_t baseVertex = 0, uint32_t instanceCount = 1, uint32_t firstInstance = 0 );
 
 
         /**
          * Dispatch a compute shader.
          */
-        virtual void Dispatch( uint32_t numGroupsX, uint32_t numGroupsY, uint32_t numGroupsZ = 1 ) override;
+        void Dispatch( uint32_t numGroupsX, uint32_t numGroupsY, uint32_t numGroupsZ = 1 );
 
         /**
          * Dispatch a set of draw/dispatch commands using an indirect argument buffer.
@@ -319,14 +330,14 @@ namespace Graphics
          * @param countBufferOffset A byte offset to apply to the commandCountBuffer before reading the command count.
          * @see https://msdn.microsoft.com/en-us/library/windows/desktop/dn903884(v=vs.85).aspx
          */
-        virtual void ExecuteIndirect( std::shared_ptr<IndirectCommandSignature> commandSignature,
-                                      std::shared_ptr<Buffer> indirectArguments, size_t byteOffset = 0,
-                                      std::shared_ptr<Buffer> commandCountBuffer = nullptr, size_t countBufferOffset = 0 ) override;
+        void ExecuteIndirect( std::shared_ptr<IndirectCommandSignatureDX12> commandSignature,
+                                      std::shared_ptr<BufferDX12> indirectArguments, size_t byteOffset = 0,
+                                      std::shared_ptr<BufferDX12> commandCountBuffer = nullptr, size_t countBufferOffset = 0 );
 
         /**
         * Generate mipmaps for the given texture.
         */
-        virtual void GenerateMips( std::shared_ptr<Texture> texture ) override;
+        void GenerateMips( std::shared_ptr<TextureDX12> texture );
 
         Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetD3D12CommandList() const;
         D3D12_COMMAND_LIST_TYPE GetD3D12CommandListType() const;

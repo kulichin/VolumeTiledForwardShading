@@ -36,22 +36,22 @@ namespace Graphics
 {
     class GraphicsCommandQueueDX12;
 
-    class FenceDX12 : public Fence
+    class FenceDX12
     {
     public:
         FenceDX12( std::shared_ptr<GraphicsCommandQueueDX12> commandQueue, uint64_t fenceValue );
-        virtual ~FenceDX12();
+        ~FenceDX12();
 
         /**
         * Check the fence status.
         */
-        virtual FenceStatus GetStatus() const override;
+        FenceStatus GetStatus() const;
 
         /**
          * Wait for the fence to complete.
          * @param duration Time to wait in milliseconds. Default if "INFINITE" wait.
          */
-        virtual void WaitFor( std::chrono::milliseconds duration = std::chrono::milliseconds::max() ) override;
+        void WaitFor( std::chrono::milliseconds duration = std::chrono::milliseconds::max() );
 
         uint64_t GetFenceValue() const;
 

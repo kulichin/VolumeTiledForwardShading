@@ -38,13 +38,13 @@ namespace Graphics
 {
     class DeviceDX12;
 
-    class BufferDX12 : public ResourceDX12, public virtual Buffer
+    class BufferDX12 : public ResourceDX12
     {
     public:
         BufferDX12( std::shared_ptr<DeviceDX12> device );
         virtual ~BufferDX12();
 
-        virtual void SetName( const std::wstring& name ) override
+        virtual void SetName( const std::wstring& name )
         {
             ResourceDX12::SetName( name );
         }

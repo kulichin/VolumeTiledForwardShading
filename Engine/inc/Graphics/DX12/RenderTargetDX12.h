@@ -39,16 +39,16 @@ namespace Graphics
     class TextureDX12;
     class GraphicsCommandBufferDX12;
 
-    class RenderTargetDX12 : public Core::Object, public virtual RenderTarget
+    class RenderTargetDX12 : public Core::Object
     {
     public:
         RenderTargetDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~RenderTargetDX12();
+        ~RenderTargetDX12();
 
-        virtual void AttachTexture( AttachmentPoint attachment, std::shared_ptr<Texture> texture ) override;
-        virtual std::shared_ptr<Texture> GetTexture( AttachmentPoint attachment ) const override;
+        void AttachTexture( AttachmentPoint attachment, std::shared_ptr<Texture> texture );
+        std::shared_ptr<Texture> GetTexture( AttachmentPoint attachment ) const;
 
-        virtual void Resize( uint16_t width, uint16_t height ) override;
+        void Resize( uint16_t width, uint16_t height );
 
         DXGI_SAMPLE_DESC GetSampleDesc() const;
         std::vector<DXGI_FORMAT> GetRTVFormats() const;
@@ -58,9 +58,6 @@ namespace Graphics
 
         const std::vector< std::shared_ptr<TextureDX12> >& GetTextures() const;
 
-    protected:
-
-    private:
         std::weak_ptr<DeviceDX12> m_Device;
         
         Microsoft::WRL::ComPtr<ID3D12Device> m_d3d12Device;

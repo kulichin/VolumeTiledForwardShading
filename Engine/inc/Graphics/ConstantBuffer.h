@@ -31,15 +31,3 @@
  */
 
 #include "Buffer.h"
-
-namespace Graphics
-{
-    class ENGINE_DLL ConstantBuffer : public Buffer
-    {
-    public:
-        /**
-         * Get the size in bytes of the constant buffer.
-         */
-        virtual size_t GetSizeInBytes() const = 0;
-    };
-}

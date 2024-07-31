@@ -30,17 +30,16 @@
  *  @brief Queue semaphore for DX12.
  */
 
-#include "../QueueSemaphore.h"
 
 namespace Graphics
 {
     class DeviceDX12;
 
-    class QueueSemaphoreDX12 : public QueueSemaphore
+    class QueueSemaphoreDX12
     {
     public:
         QueueSemaphoreDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~QueueSemaphoreDX12();
+        ~QueueSemaphoreDX12();
 
         /**
          * Increment and return the fence value.

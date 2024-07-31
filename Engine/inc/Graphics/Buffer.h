@@ -31,12 +31,3 @@
  */
 
 #include "Resource.h"
-
-namespace Graphics
-{
-    class ENGINE_DLL Buffer : public Resource
-    {
-    public:
-
-    };
-}

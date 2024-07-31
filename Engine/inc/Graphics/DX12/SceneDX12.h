@@ -30,7 +30,10 @@
  *  @brief 
  */
 
-#include "../Scene.h"
+#include "../../EngineDefines.h"
+#include "../Mesh.h"
+#include "../SceneNode.h"
+#include "../Material.h"
 
 class ProgressHandler;
 
@@ -43,16 +46,16 @@ namespace Graphics
 {
     class DeviceDX12;
 
-    class SceneDX12 : public Scene
+    class SceneDX12
     {
     public:
         SceneDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~SceneDX12();
+        ~SceneDX12();
 
         /**
         * Load a scene from a file on disc.
         */
-        virtual bool LoadFromFile( std::shared_ptr<ComputeCommandBuffer> computeCommandBuffer, const std::wstring& fileName ) override;
+        bool LoadFromFile( std::shared_ptr<ComputeCommandBuffer> computeCommandBuffer, const std::wstring& fileName );
 
         /**
         * Load a scene from a string.
@@ -62,16 +65,13 @@ namespace Graphics
         * @param scene The byte encoded scene file.
         * @param format The format of the scene file.
         */
-        virtual bool LoadFromString( std::shared_ptr<ComputeCommandBuffer> computeCommandBuffer, const std::string& scene, const std::string& format ) override;
-        virtual void Render( Core::RenderEventArgs& renderEventArgs ) override;
+        bool LoadFromString( std::shared_ptr<ComputeCommandBuffer> computeCommandBuffer, const std::string& scene, const std::string& format );
+        void Render( Core::RenderEventArgs& renderEventArgs );
 
-        virtual std::shared_ptr<SceneNode> GetRootNode() const override;
+        std::shared_ptr<SceneNode> GetRootNode() const;
 
-        virtual void Accept( Core::SceneVisitor& visitor ) override;
+        void Accept( Core::SceneVisitor& visitor );
 
-    protected:
-
-    private:
         friend class ProgressHandler;
 
         void ImportMaterial( std::shared_ptr<ComputeCommandBuffer> computeCommandBuffer, const aiMaterial& material, fs::path parentPath );

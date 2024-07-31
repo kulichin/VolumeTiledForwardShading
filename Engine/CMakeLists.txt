@@ -44,21 +44,15 @@ source_group( "Header Files" FILES ${Engine_CORE_HEADERS} )
 
 set(Engine_GRAPHICS_HEADERS
 	inc/Graphics/Adapter.h
-	inc/Graphics/BlendState.h
 	inc/Graphics/Buffer.h
-	inc/Graphics/ByteAddressBuffer.h
 	inc/Graphics/Camera.h
 	inc/Graphics/ClearColor.h
-	inc/Graphics/CommandBuffer.h
 	inc/Graphics/CommandQueue.h
 	inc/Graphics/ComputeCommandBuffer.h
 	inc/Graphics/ComputeCommandQueue.h
 	inc/Graphics/ComputePipelineState.h
 	inc/Graphics/ConstantBuffer.h
-	inc/Graphics/CopyCommandBuffer.h
 	inc/Graphics/CopyCommandQueue.h
-	inc/Graphics/DepthStencilState.h
-	inc/Graphics/Device.h
 	inc/Graphics/DirectionalLight.h
 	inc/Graphics/Display.h
 	inc/Graphics/Fence.h
@@ -66,7 +60,6 @@ set(Engine_GRAPHICS_HEADERS
 	inc/Graphics/GraphicsCommandQueue.h
 	inc/Graphics/GraphicsEnums.h
 	inc/Graphics/GraphicsPipelineState.h
-	inc/Graphics/IndexBuffer.h
 	inc/Graphics/IndirectArgument.h
 	inc/Graphics/IndirectCommandSignature.h
 	inc/Graphics/Material.h
@@ -74,26 +67,16 @@ set(Engine_GRAPHICS_HEADERS
 	inc/Graphics/PointLight.h
 	inc/Graphics/Profiler.h
 	inc/Graphics/Query.h
-	inc/Graphics/QueueSemaphore.h
-	inc/Graphics/RasterizerState.h
 	inc/Graphics/Ray.h
-	inc/Graphics/ReadbackBuffer.h
 	inc/Graphics/Rect.h
 	inc/Graphics/RenderTarget.h
-	inc/Graphics/Resource.h
-	inc/Graphics/Sampler.h
-	inc/Graphics/Scene.h
 	inc/Graphics/SceneNode.h
-	inc/Graphics/Shader.h
 	inc/Graphics/ShaderParameter.h
-	inc/Graphics/ShaderSignature.h
 	inc/Graphics/SpotLight.h
-	inc/Graphics/StructuredBuffer.h
 	inc/Graphics/Texture.h
 	inc/Graphics/TextureFormat.h
-	inc/Graphics/VertexBuffer.h
 	inc/Graphics/Viewport.h
-	inc/Graphics/Window.h
+	inc/Graphics/Window.h	
 )
 
 source_group( "Header Files\\Graphics" FILES ${Engine_GRAPHICS_HEADERS} )

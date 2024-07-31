@@ -30,25 +30,24 @@
  *  @brief DX12 Implementation of an index buffer.
  */
 
-#include "../IndexBuffer.h"
 #include "BufferDX12.h"
 
 namespace Graphics
 {
     class DeviceDX12;
 
-    class IndexBufferDX12 : public virtual IndexBuffer, public BufferDX12
+    class IndexBufferDX12 : public BufferDX12
     {
     public:
         IndexBufferDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~IndexBufferDX12();
+        ~IndexBufferDX12();
 
-        virtual void SetName( const std::wstring& name ) override
+        void SetName( const std::wstring& name )
         {
             BufferDX12::SetName( name );
         }
 
-        virtual ResourceState GetResourceState() const override
+        ResourceState GetResourceState() const
         {
             return BufferDX12::GetResourceState();
         }
@@ -57,19 +56,16 @@ namespace Graphics
         /**
         * Get the number of indices of this index buffer.
         */
-        virtual size_t GetNumIndices() const override;
+        size_t GetNumIndices() const;
 
         /**
         * Get the size of each index in bytes.
         */
-        virtual size_t GetIndexSizeInBytes() const override;
+        size_t GetIndexSizeInBytes() const;
 
-        virtual void CreateViews( size_t numElements, size_t elementSize ) override;
+        void CreateViews( size_t numElements, size_t elementSize );
         D3D12_INDEX_BUFFER_VIEW GetIndexBufferView() const;
 
-    protected:
-
-    private:
         // Number of indices in the index buffer.
         size_t m_NumIndices;
         size_t m_BytesPerIndex;

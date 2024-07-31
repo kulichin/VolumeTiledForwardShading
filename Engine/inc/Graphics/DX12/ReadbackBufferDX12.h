@@ -30,23 +30,22 @@
  *  @brief A Readback buffer can be used to read the data from a GPU buffer.
  */
 
-#include "../ReadbackBuffer.h"
 #include "BufferDX12.h"
 
 namespace Graphics
 {
-    class ReadbackBufferDX12 : public BufferDX12, public virtual ReadbackBuffer
+    class ReadbackBufferDX12 : public BufferDX12
     {
     public:
         ReadbackBufferDX12( std::shared_ptr<DeviceDX12> device, size_t bufferSize );
-        virtual ~ReadbackBufferDX12();
+        ~ReadbackBufferDX12();
 
-        virtual void SetName( const std::wstring& name ) override
+        void SetName( const std::wstring& name )
         {
             BufferDX12::SetName( name );
         }
 
-        virtual ResourceState GetResourceState() const
+        ResourceState GetResourceState() const
         {
             return BufferDX12::GetResourceState();
         }
@@ -62,12 +61,8 @@ namespace Graphics
         * @param offset The offset in bytes to start reading from.
         * @param size The number of bytes to read. By default, the entire buffer is read.
         */
-        virtual void GetData( void* dstBuffer, size_t offset = 0, size_t size = std::numeric_limits<size_t>::max() ) const override;
+        void GetData( void* dstBuffer, size_t offset = 0, size_t size = std::numeric_limits<size_t>::max() ) const;
 
-    protected:
-
-    private:
         size_t m_BufferSize;
-
     };
 }

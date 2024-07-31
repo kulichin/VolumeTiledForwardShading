@@ -59,32 +59,6 @@ namespace Graphics
     };
 
     using DisplayModeList = std::vector<DisplayMode>;
-
-    class ENGINE_DLL Display
-    {
-    public:
-
-        /**
-         * A name that describes the display device.
-         */
-        virtual const std::wstring& GetName() const = 0;
-
-        /**
-         * Get the desktop coordinates of this display device.
-         */
-        virtual const Rect& GetDesktopCoordinates() const = 0;
-
-        /**
-         * Get the display rotation.
-         */
-        virtual DisplayRotation GetRotation() const = 0;
-
-        /**
-         * Get the display modes that match the requested texture format.
-         */
-        virtual DisplayModeList GetDisplayModes( const TextureFormat& textureFormat ) const = 0;
-
-    };
 }
 
 inline std::wstring to_wstring( const Graphics::DisplayRotation& rot )

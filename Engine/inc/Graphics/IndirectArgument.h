@@ -87,18 +87,4 @@ namespace Graphics
         uint32_t NumThreadGroupsY;
         uint32_t NumThreadGroupsZ;
     };
-
-    class ENGINE_DLL IndirectArgument
-    {
-    public:
-        IndirectArgument( IndirectArgumentType indirectArgumentType = IndirectArgumentType::Invalid );
-
-        /**
-         * Query the indirect argument type.
-         */
-        IndirectArgumentType GetArgumentType() const;
-
-    private:
-        IndirectArgumentType m_IndirectArgumentType;
-    };
 }

@@ -32,24 +32,3 @@
 
 #include "../EngineDefines.h"
 
-namespace Graphics
-{
-    class Shader;
-    class ShaderSignature;
-
-    class ENGINE_DLL ComputePipelineState
-    {
-    public:
-
-        virtual void SetShaderSignature( std::shared_ptr<ShaderSignature> shaderSignature ) = 0;
-        virtual std::shared_ptr<ShaderSignature> GetShaderSignature() const = 0;
-
-        /**
-         * Compute pipeline states only support compute shaders so the shader type 
-         * does not need to be specified.
-         */
-        virtual void SetShader( std::shared_ptr<Shader> shader ) = 0;
-        virtual std::shared_ptr<Shader> GetShader() const = 0;
-
-    };
-}

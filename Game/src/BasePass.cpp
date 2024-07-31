@@ -1,7 +1,6 @@
 #include <GamePCH.h>
 
 #include <Graphics/Camera.h>
-#include <Graphics/Scene.h>
 #include <Graphics/SceneNode.h>
 #include <Graphics/Mesh.h>
 #include <Graphics/Material.h>

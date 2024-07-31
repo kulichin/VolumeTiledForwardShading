@@ -44,20 +44,4 @@ namespace Graphics
         Ready,      // The fence has been reached.
         NotReady    // The fence has not been reached.
     };
-
-    class ENGINE_DLL Fence
-    {
-    public:
-        /**
-         * Check the fence status.
-         */
-        virtual FenceStatus GetStatus() const = 0;
-
-        /**
-        * Wait a specific period of time for the fence to complete.
-        * @param duration Time to wait in milliseconds. Default value is "infinite" wait.
-        */
-        virtual void WaitFor( std::chrono::milliseconds duration = std::chrono::milliseconds::max() ) = 0;
-
-    };
 }

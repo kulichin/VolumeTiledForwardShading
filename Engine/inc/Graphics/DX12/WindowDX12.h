@@ -11,7 +11,7 @@ namespace Graphics
     class TextureDX12;
     class RenderTargetDX12;
 
-    class ENGINE_DLL WindowDX12 : public Window
+    class ENGINE_DLL WindowDX12
     {
     public:
         using super = Window;
@@ -23,36 +23,36 @@ namespace Graphics
                     const Graphics::TextureFormat& colorFormat,
                     const Graphics::TextureFormat& depthStencilFormat );
 
-        virtual ~WindowDX12();
+        ~WindowDX12();
 
         // Show this window if it is hidden.
-        virtual void ShowWindow() override;
+        void ShowWindow();
         // Hide the window. The window will not be destroyed and can be 
         // shown again using the ShowWindow() function.
-        virtual void HideWindow() override;
+        void HideWindow();
 
         // Destroy and close the window.
-        virtual void CloseWindow() override;
+        void CloseWindow();
 
-        virtual void SetFullScreen( bool fullscreen ) override;
+        void SetFullScreen( bool fullscreen );
 
         /**
         * Set the texture format of the color buffer associated to this window's
         * render target
         */
-        virtual void SetColorFormat( const TextureFormat& colorFormat ) override;
+        void SetColorFormat( const TextureFormat& colorFormat );
 
         /**
         * Set the texture format of the depth/stencil buffer associated to this
         * windows render target.
         */
-        virtual void SetDepthStencilFormat( const TextureFormat& depthStencilFormat ) override;
+        void SetDepthStencilFormat( const TextureFormat& depthStencilFormat );
 
 
-        virtual std::shared_ptr<RenderTarget> GetRenderTarget() const override;
+        std::shared_ptr<RenderTarget> GetRenderTarget() const;
 
         // Present the back buffers
-        virtual void Present() override;
+        void Present();
 
         void WaitForGPU();
 
@@ -60,12 +60,12 @@ namespace Graphics
         friend class ApplicationDX12;
 
         // The application window has been resized
-        virtual void OnUpdate( Core::UpdateEventArgs& e ) override;
-        virtual void OnResize( Core::ResizeEventArgs& e ) override;
-        virtual void OnPreRender( Core::RenderEventArgs& e ) override;
+        void OnUpdate( Core::UpdateEventArgs& e );
+        void OnResize( Core::ResizeEventArgs& e );
+        void OnPreRender( Core::RenderEventArgs& e );
 
-        virtual void OnMouseMoved( Core::MouseMotionEventArgs& e ) override;
-        virtual void OnMouseLeave( Core::EventArgs& e ) override;
+        void OnMouseMoved( Core::MouseMotionEventArgs& e );
+        void OnMouseLeave( Core::EventArgs& e );
 
         void CreateSwapChain();
         void ResizeSwapChainBuffers( uint32_t width, uint32_t height );

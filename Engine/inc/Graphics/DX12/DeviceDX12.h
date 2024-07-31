@@ -30,8 +30,16 @@
  *  @brief D3D12 Render Device.
  */
 
+#include "VertexBufferDX12.h"
+#include "IndexBufferDX12.h"
+#include "ShaderSignatureDX12.h"
+#include "QueueSemaphoreDX12.h"
+#include "ByteAddressBufferDX12.h"
+#include "StructuredBufferDX12.h"
+#include "SceneDX12.h"
+#include "../Material.h"
+#include "../GraphicsEnums.h"
 
-#include "../Device.h"
 #include "../../ThreadSafeQueue.h"
 
 namespace Graphics
@@ -43,67 +51,66 @@ namespace Graphics
     class DescriptorAllocatorDX12;
     class ComputePipelineStateDX12;
 
-    class DeviceDX12 : public Device, public std::enable_shared_from_this<DeviceDX12>
+    class DeviceDX12 : public std::enable_shared_from_this<DeviceDX12>
     {
     public:
         DeviceDX12( Microsoft::WRL::ComPtr<ID3D12Device> device, std::shared_ptr<AdapterDXGI> adapter );
-        virtual ~DeviceDX12();
+        ~DeviceDX12();
 
         /**
          * Idle the GPU until all command queues have finished executing.
          */
-        virtual void IdleGPU() override;
-
-        virtual std::shared_ptr<Adapter> GetAdapter() const override;
+        void IdleGPU();
+        std::shared_ptr<AdapterDX12> GetAdapter() const;
 
         /**
         * Get the graphics queue.
         * @param index The index of the graphics queue to retrieve. Default is 0.
         *
         */
-        virtual std::shared_ptr<GraphicsCommandQueue> GetGraphicsQueue() const override;
+        std::shared_ptr<GraphicsCommandQueueDX12> GetGraphicsQueue() const;
 
         /**
         * Get the compute queue.
         * @param index The index of the compute queue to retrieve. Default is 0.
         */
-        virtual std::shared_ptr<ComputeCommandQueue> GetComputeQueue() const override;
+        std::shared_ptr<ComputeCommandQueueDX12> GetComputeQueue() const;
 
         /**
         * Get the copy queue.
         * @param index The index of the copy queue to retrieve. Default is 0.
         */
-        virtual std::shared_ptr<CopyCommandQueue> GetCopyQueue() const override;
+        std::shared_ptr<CopyCommandQueueDX12> GetCopyQueue() const;
 
         /**
         * Create a queue semaphore object that can be used to synchronize queues.
         */
-        virtual std::shared_ptr<QueueSemaphore> CreateQueueSemaphore() override;
+        std::shared_ptr<QueueSemaphoreDX12> CreateQueueSemaphore();
 
         /**
         * Create a mesh object.
         */
-        virtual std::shared_ptr<Mesh> CreateMesh() override;
+        std::shared_ptr<Mesh> CreateMesh();
 
         /**
         * Create a material object.
         */
-        virtual std::shared_ptr<Material> CreateMaterial() override;
+        std::shared_ptr<Material> CreateMaterial();
 
         /**
          * Create a scene object for loading scene files.
          */
-        virtual std::shared_ptr<Scene> CreateScene() override;
+        std::shared_ptr<SceneDX12> CreateScene();
 
         /**
          * Create a sphere mesh.
          */
-        virtual std::shared_ptr<Scene> CreateSphere( std::shared_ptr<ComputeCommandBuffer> commandBuffer, float radius, float tesselation = 1.0f ) override;
+        std::shared_ptr<SceneDX12> CreateSphere( std::shared_ptr<ComputeCommandBuffer> commandBuffer, float radius, float tesselation = 1.0f );
 
         /**
          * Create a cylinder mesh.
          */
-        virtual std::shared_ptr<Scene> CreateCylinder( std::shared_ptr<ComputeCommandBuffer> commandBuffer, float baseRadius, float apexRadius, float height, const glm::vec3& axis ) override;
+        std::shared_ptr<SceneDX12> CreateCylinder( std::shared_ptr<ComputeCommandBuffer> commandBuffer, float baseRadius, float apexRadius, float height, const glm::vec3& axis );
 
         /**
          * Create a screen-space quad that can be used to render full-screen post-process effects to the screen.
@@ -112,91 +119,91 @@ namespace Graphics
          * you can specify your own screen coordinates and supply an appropriate orthographic projection matrix to align the
          * screen quad appropriately.
          */
-        virtual std::shared_ptr<Scene> CreateScreenQuad( std::shared_ptr<ComputeCommandBuffer> commandBuffer, float left = -1.0f, float right = 1.0f, float bottom = -1.0f, float top = 1.0f, float z = 0.0f ) override;
+        std::shared_ptr<SceneDX12> CreateScreenQuad( std::shared_ptr<ComputeCommandBuffer> commandBuffer, float left = -1.0f, float right = 1.0f, float bottom = -1.0f, float top = 1.0f, float z = 0.0f );
 
         /**
         * Create a shader signature. Required by the pipeline state object.
         */
-        virtual std::shared_ptr<ShaderSignature> CreateShaderSignature() override;
+        std::shared_ptr<ShaderSignatureDX12> CreateShaderSignature();
 
         /**
          * Create a constant buffer
          */
-        virtual std::shared_ptr<ConstantBuffer> CreateConstantBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t bufferSize, const void* bufferData ) override;
+        std::shared_ptr<ConstantBufferDX12> CreateConstantBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t bufferSize, const void* bufferData );
 
         /**
          * Create a structured buffer.
          */
-        virtual std::shared_ptr<StructuredBuffer> CreateStructuredBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t numElements, size_t elementSize, const void* bufferData = nullptr ) override;
+        std::shared_ptr<StructuredBufferDX12> CreateStructuredBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t numElements, size_t elementSize, const void* bufferData = nullptr );
 
         /**
          * Create a byte address buffer.
          */
-        virtual std::shared_ptr<ByteAddressBuffer> CreateByteAddressBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t bufferSize, const void* bufferData = nullptr ) override;
+        std::shared_ptr<ByteAddressBufferDX12> CreateByteAddressBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t bufferSize, const void* bufferData = nullptr );
 
         /**
          * Create a vertex buffer.
          */
-        virtual std::shared_ptr<VertexBuffer> CreateVertexBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t numVertices, size_t vertexStride, const void* vertexData ) override;
+        std::shared_ptr<VertexBufferDX12> CreateVertexBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t numVertices, size_t vertexStride, const void* vertexData );
 
         /**
          * Create an index buffer.
          */
-        virtual std::shared_ptr<IndexBuffer> CreateIndexBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t numIndicies, size_t indexSizeInBytes, const void* indexData ) override;
+        std::shared_ptr<IndexBufferDX12> CreateIndexBuffer( std::shared_ptr<CopyCommandBuffer> copyCommandBuffer, size_t numIndicies, size_t indexSizeInBytes, const void* indexData );
 
         /**
          * Create a buffer that can be used to read back data from the GPU.
          * Use CopyCommandBuffer::CopyResource to copy the contents from a GPU buffer into a readback
          * buffer. Wait for the copy operation to finish (using a fence) before reading the contents of the readback buffer.
          */
-        virtual std::shared_ptr<ReadbackBuffer> CreateReadbackBuffer( size_t bufferSize ) override;
+        std::shared_ptr<ReadbackBufferDX12> CreateReadbackBuffer( size_t bufferSize );
 
         /**
          * Create a sampler that can be bound in either a table range or as a static
          * sampler in a root signature.
          */
-        virtual std::shared_ptr<Sampler> CreateSampler() override;
+        std::shared_ptr<SamplerDX12> CreateSampler();
 
         /**
          * Create texture from a file.
          */
-        virtual std::shared_ptr<Texture> CreateTexture( std::shared_ptr<ComputeCommandBuffer> computeCommandBuffer, const std::wstring& fileName ) override;
+        std::shared_ptr<TextureDX12> CreateTexture( std::shared_ptr<ComputeCommandBuffer> computeCommandBuffer, const std::wstring& fileName );
 
 
         /**
          * Create an empty 2D Texture
          */
-        virtual std::shared_ptr<Texture> CreateTexture2D( uint16_t width, uint16_t height, uint16_t slices, const TextureFormat& format ) override;
+        std::shared_ptr<TextureDX12> CreateTexture2D( uint16_t width, uint16_t height, uint16_t slices, const TextureFormat& format );
 
         /**
         * Create a graphics pipeline state.
         */
-        virtual std::shared_ptr<GraphicsPipelineState> CreateGraphicsPipelineState() override;
+        std::shared_ptr<GraphicsPipelineStateDX12> CreateGraphicsPipelineState();
 
         /**
         * Create a compute pipeline state.
         */
-        virtual std::shared_ptr<ComputePipelineState> CreateComputePipelineState() override;
+        std::shared_ptr<ComputePipelineStateDX12> CreateComputePipelineState();
 
         /**
          * Create an indirect command signature.
          */
-        virtual std::shared_ptr<IndirectCommandSignature> CreateIndirectCommandSignature() override;
+        std::shared_ptr<IndirectCommandSignatureDX12> CreateIndirectCommandSignature();
 
         /**
          * Create a render target.
          */
-        virtual std::shared_ptr<RenderTarget> CreateRenderTarget() override;
+        std::shared_ptr<RenderTargetDX12> CreateRenderTarget();
 
         /**
         * Create a shader.
         */
-        virtual std::shared_ptr<Shader> CreateShader() override;
+        std::shared_ptr<ShaderDX12> CreateShader();
 
         /**
         * Create a GPU query.
         */
-        virtual std::shared_ptr<Query> CreateQuery( QueryType queryType, uint32_t numQueries ) override;
+        std::shared_ptr<QueryDX12> CreateQuery( QueryType queryType, uint32_t numQueries );
 
 
         void Init();

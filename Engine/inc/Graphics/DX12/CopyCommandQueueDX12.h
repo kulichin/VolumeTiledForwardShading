@@ -39,8 +39,10 @@ namespace Graphics
 {
     class DeviceDX12;
 
-    class CopyCommandQueueDX12 : public CommandQueueDX12, public virtual CopyCommandQueue, public Core::EnableSharedFromThis<CopyCommandQueueDX12>
+    class CopyCommandQueueDX12 : public CommandQueueDX12, public Core::EnableSharedFromThis<CopyCommandQueueDX12>
     {
+    using CommandBufferList = std::vector< std::shared_ptr<CommandBuffer> >;
+
     public:
 
         CopyCommandQueueDX12( std::shared_ptr<DeviceDX12> device,
@@ -48,16 +50,13 @@ namespace Graphics
                               INT priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL,
                               D3D12_COMMAND_QUEUE_FLAGS flags = D3D12_COMMAND_QUEUE_FLAG_NONE,
                               UINT nodeMask = 1 );
-        virtual ~CopyCommandQueueDX12(); 
+        ~CopyCommandQueueDX12(); 
 
         /**
         * Creates a copy command buffer that can be used to record copy commands to the queue.
         */
-        virtual std::shared_ptr<CopyCommandBuffer> CreateCopyCommandBuffer() override;
+        std::shared_ptr<CopyCommandBuffer> CreateCopyCommandBuffer();
 
-    protected:
-
-    private:
         using CopyCommandBufferList = std::vector< std::shared_ptr<CopyCommandBuffer> >;
         
         CopyCommandBufferList m_CopyCommandBuffers;

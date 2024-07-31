@@ -31,32 +31,31 @@
  */
 
 #include "BufferDX12.h"
-#include "../VertexBuffer.h"
 
 namespace Graphics
 {
     class DeviceDX12;
 
-    class VertexBufferDX12 : public BufferDX12, public virtual VertexBuffer
+    class VertexBufferDX12 : public BufferDX12
     {
     public:
         VertexBufferDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~VertexBufferDX12();
+        ~VertexBufferDX12();
 
-        virtual void SetName( const std::wstring& name ) override
+        void SetName( const std::wstring& name )
         {
             BufferDX12::SetName( name );
         }
 
-        virtual ResourceState GetResourceState() const
+        ResourceState GetResourceState() const
         {
             return BufferDX12::GetResourceState();
         }
 
-        virtual size_t GetVertexCount() const override;
-        virtual size_t GetVertexStride() const override;
+        size_t GetVertexCount() const;
+        size_t GetVertexStride() const;
 
-        virtual void CreateViews( size_t numElements, size_t elementSize ) override;
+        void CreateViews( size_t numElements, size_t elementSize );
         D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView() const;
     protected:
 

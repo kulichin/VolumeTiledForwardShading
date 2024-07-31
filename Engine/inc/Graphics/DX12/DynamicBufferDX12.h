@@ -43,9 +43,8 @@ namespace Graphics
         DynamicBufferDX12( std::shared_ptr<DeviceDX12> device, 
                            Microsoft::WRL::ComPtr<ID3D12Resource> d3d12Resource, 
                            D3D12_RESOURCE_STATES state );
-        virtual ~DynamicBufferDX12();
+        ~DynamicBufferDX12();
 
-    private:
         friend class HeapAllocatorDX12;
 
         void* m_DataPtr;

@@ -39,7 +39,7 @@ namespace Graphics
     class FenceDX12;
     class GraphicsCommandBufferDX12;
 
-    class GraphicsCommandQueueDX12 : public GraphicsCommandQueue, public std::enable_shared_from_this<GraphicsCommandQueueDX12>
+    class GraphicsCommandQueueDX12 : public std::enable_shared_from_this<GraphicsCommandQueueDX12>
     {
     public:
         GraphicsCommandQueueDX12( std::shared_ptr<DeviceDX12> device,
@@ -48,57 +48,57 @@ namespace Graphics
                                   D3D12_COMMAND_QUEUE_FLAGS flags = D3D12_COMMAND_QUEUE_FLAG_NONE,
                                   UINT nodeMask = 1 );
 
-        virtual ~GraphicsCommandQueueDX12();
+        ~GraphicsCommandQueueDX12();
 
         /**
         * Insert a semaphore signal into the GPU queue.
         */
-        virtual void Signal( std::shared_ptr<QueueSemaphore> queueSemaphore ) override;
+        void Signal( std::shared_ptr<QueueSemaphoreDX12> queueSemaphore );
 
         /**
         * Insert a semaphore wait into the GPU queue.
         */
-        virtual void Wait( std::shared_ptr<QueueSemaphore> queueSemaphore ) override;
+        void Wait( std::shared_ptr<QueueSemaphoreDX12> queueSemaphore );
 
         /**
         * Signal the queue. The fence that is returned can be waited for.
         */
-        virtual std::shared_ptr<Fence> Signal() override;
+        std::shared_ptr<FenceDX12> Signal();
 
         /**
         * Submit a list of command buffers to the queue.
         */
-        virtual std::shared_ptr<Fence> Submit( const CommandBufferList& commandBuffers ) override;
+        std::shared_ptr<FenceDX12> Submit( const CommandBufferList& commandBuffers );
 
         /**
         * Submit a single command buffer.
         */
-        virtual std::shared_ptr<Fence> Submit( std::shared_ptr<CommandBuffer> commandBuffer ) override;
+        std::shared_ptr<FenceDX12> Submit( std::shared_ptr<CommandBuffer> commandBuffer );
 
         /**
          * Flush all commands currently queued and wait for completion.
          */
-        virtual void Idle() override;
+        void Idle();
 
         /**
         * Creates a copy command buffer that can be used to record copy commands to the queue.
         */
-        virtual std::shared_ptr<CopyCommandBuffer> GetCopyCommandBuffer() override;
+        std::shared_ptr<CopyCommandBuffer> GetCopyCommandBuffer();
 
         /**
         * Creates a compute command buffer that can be used to submit compute commands to the queue.
         */
-        virtual std::shared_ptr<ComputeCommandBuffer> GetComputeCommandBuffer() override;
+        std::shared_ptr<ComputeCommandBuffer> GetComputeCommandBuffer();
 
         /**
         * Creates a graphics command buffer that can be used to submit graphics commands to the queue.
         */
-        virtual std::shared_ptr<GraphicsCommandBuffer> GetGraphicsCommandBuffer() override;
+        std::shared_ptr<GraphicsCommandBufferDX12> GetGraphicsCommandBuffer();
 
         /**
          * Get the GPU frequency of queries running on this queue.
          */
-        virtual uint64_t GetGPUFrequency() const override;
+        uint64_t GetGPUFrequency() const;
         
         Microsoft::WRL::ComPtr<ID3D12CommandQueue> GetD3D12CommandQueue() const;
         D3D12_COMMAND_LIST_TYPE GetD3D12CommandListType() const;

@@ -30,7 +30,6 @@
  *  @brief DirectX 12 Shader implementation.
  */
 
-#include "../Shader.h"
 #include "../../Events.h"
 #include "../../DependencyTracker.h"
 
@@ -39,18 +38,16 @@ namespace Graphics
     class DeviceDX12;
     class ShaderSignatureDX12;
 
-    class ShaderDX12 : public Shader
+    class ShaderDX12
     {
     public:
-        using base = Shader;
-
         ShaderDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~ShaderDX12();
+        ~ShaderDX12();
 
         /**
          * The type of shader this is.
          */
-        virtual ShaderType GetType() const override;
+        ShaderType GetType() const;
 
         /**
          * Load a shader file from a string.
@@ -62,7 +59,7 @@ namespace Graphics
          * To use the latest supported profile, specify "latest" here.
          * @return True if the shader was loaded correctly, or False otherwise.
          */
-        virtual bool LoadShaderFromString( ShaderType type, const std::string& source, const std::wstring& sourceFileName = L"", const std::string& entryPoint = "main", const ShaderMacros& shaderMacros = ShaderMacros(), const std::string& profile = "latest" ) override;
+        bool LoadShaderFromString( ShaderType type, const std::string& source, const std::wstring& sourceFileName = L"", const std::string& entryPoint = "main", const ShaderMacros& shaderMacros = ShaderMacros(), const std::string& profile = "latest" );
 
         /**
          * Load a shader from a file.
@@ -73,7 +70,7 @@ namespace Graphics
          * To use the latest supported profile, specify "latest" here.
          * @return True if the shader was loaded correctly, or False otherwise.
          */
-        virtual bool LoadShaderFromFile( ShaderType type, const std::wstring& fileName, const std::string& entryPoint = "main", const ShaderMacros& shaderMacros = ShaderMacros(), const std::string& profile = "latest" ) override;
+        bool LoadShaderFromFile( ShaderType type, const std::wstring& fileName, const std::string& entryPoint = "main", const ShaderMacros& shaderMacros = ShaderMacros(), const std::string& profile = "latest" );
 
         /**
          * Query for the latest supported shader profile.
@@ -81,7 +78,7 @@ namespace Graphics
          * @return The supported shader profile or an empty string if no profile could be
          * determined for the specified shader type.
          */
-        virtual std::string GetLatestProfile( ShaderType type ) override;
+        std::string GetLatestProfile( ShaderType type );
 
         /**
          * Shaders can define a shader signature in the shader file.
@@ -90,7 +87,7 @@ namespace Graphics
          * If no shader signature is defined in the shader source code, this function
          * return an empty (null) pointer.
          */
-        virtual std::shared_ptr<ShaderSignature> GetShaderSignature() override;
+        std::shared_ptr<ShaderSignature> GetShaderSignature();
 
         Microsoft::WRL::ComPtr<ID3DBlob> GetD3DShaderBlob() const;
         /**
@@ -109,7 +106,7 @@ namespace Graphics
 
     protected:
        
-        virtual void OnFileChanged( Core::FileChangeEventArgs& e );
+        void OnFileChanged( Core::FileChangeEventArgs& e );
 
     private:
         void ClearInputLayout();

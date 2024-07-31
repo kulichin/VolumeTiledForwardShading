@@ -1,8 +1,8 @@
 #include <EnginePCH.h>
 
-#include <Graphics/Device.h>
-#include <Graphics/Texture.h>
-#include <Graphics/ConstantBuffer.h>
+#include <Graphics/DX12/DeviceDX12.h>
+#include <Graphics/DX12/TextureDX12.h>
+#include <Graphics/DX12/ConstantBufferDX12.h>
 
 #include <Graphics/Material.h>
 

@@ -38,26 +38,4 @@ namespace Graphics
     class ShaderSignature;
 
     using IndirectArguments = std::vector<IndirectArgument>;
-
-    class ENGINE_DLL IndirectCommandSignature
-    {
-    public:
-
-        /**
-         * Specify the stride in bytes of the commands that are specified in the
-         * argument buffer that is passed to the ComputeCommandBuffer::ExecuteIndirect function.
-         */
-        virtual void SetByteStride( size_t byteStride ) = 0;
-        virtual size_t GetByteStride() const = 0;
-
-        /**
-         * Append a command argument to the command signature.
-         */
-        virtual void AppendCommandArgument( const IndirectArgument& indirectArgument ) = 0;
-
-        /**
-         * Get the command arguments that are associated with this command signature.
-         */
-        virtual const IndirectArguments& GetCommandArguments() const = 0;
-    };
 }

@@ -32,17 +32,4 @@
 
 #include "ComputeCommandQueue.h"
 
-namespace Graphics
-{
-    class GraphicsCommandBuffer;
 
-    class ENGINE_DLL GraphicsCommandQueue : public ComputeCommandQueue
-    {
-    public:
-        /**
-         * Create a graphics buffer that can be submitted to this command queue.
-         */
-        virtual std::shared_ptr<GraphicsCommandBuffer> GetGraphicsCommandBuffer() = 0;
-
-    };
-}

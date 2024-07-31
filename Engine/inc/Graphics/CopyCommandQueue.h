@@ -31,20 +31,3 @@
  */
 
 #include "CommandQueue.h"
-
-namespace Graphics
-{
-    class Fence;
-    class CopyCommandBuffer;
-    
-    class ENGINE_DLL CopyCommandQueue : public CommandQueue
-    {
-    public:
-
-        /**
-         * Creates a copy command buffer that can be used to record copy commands to the queue.
-         */
-        virtual std::shared_ptr<CopyCommandBuffer> GetCopyCommandBuffer() = 0;
-
-    };
-}

@@ -1,36 +1,35 @@
 #pragma once
 
-#include "../Display.h"
 
 namespace Graphics
 {
     class AdapterDXGI;
 
-    class DisplayDXGI : public Display
+    class DisplayDXGI
     {
     public:
         DisplayDXGI( Microsoft::WRL::ComPtr<IDXGIOutput4> output );
-        virtual ~DisplayDXGI();
+        ~DisplayDXGI();
 
         /**
         * A name that describes the display device.
         */
-        virtual const std::wstring& GetName() const override;
+        const std::wstring& GetName() const;
 
         /**
         * Get the desktop coordinates of this display device.
         */
-        virtual const Rect& GetDesktopCoordinates() const override;
+        const Rect& GetDesktopCoordinates() const;
 
         /**
         * Get the display rotation.
         */
-        virtual DisplayRotation GetRotation() const override;
+        DisplayRotation GetRotation() const;
 
         /**
         * Get the display modes supported by this display.
         */
-        virtual DisplayModeList GetDisplayModes( const TextureFormat& textureFormat ) const override;
+        DisplayModeList GetDisplayModes( const TextureFormat& textureFormat ) const;
 
         /**
          * Get a pointer to the underlying DXGIOutput.

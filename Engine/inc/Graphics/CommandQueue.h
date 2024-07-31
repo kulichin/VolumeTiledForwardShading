@@ -44,7 +44,6 @@ namespace Graphics
     class CommandBuffer;
     class Fence;
 
-    using CommandBufferList = std::vector< std::shared_ptr<CommandBuffer> >;
 
     class ENGINE_DLL CommandQueue
     {

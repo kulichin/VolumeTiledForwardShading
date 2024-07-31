@@ -45,21 +45,19 @@ namespace Graphics
     {
     public:
         ComputePipelineStateDX12( std::shared_ptr<DeviceDX12> device );
-        virtual ~ComputePipelineStateDX12();
+        ~ComputePipelineStateDX12();
 
-        virtual void SetShaderSignature( std::shared_ptr<ShaderSignature> shaderSignature ) override;
-        virtual std::shared_ptr<ShaderSignature> GetShaderSignature() const override;
+        void SetShaderSignature( std::shared_ptr<ShaderSignatureDX12> shaderSignature );
+        std::shared_ptr<ShaderSignatureDX12> GetShaderSignature() const;
 
-        virtual void SetShader( std::shared_ptr<Shader> shader ) override;
-        virtual std::shared_ptr<Shader> GetShader() const override;
+        void SetShader( std::shared_ptr<ShaderDX12> shader );
+        std::shared_ptr<ShaderDX12> GetShader() const;
 
         void Bind( std::shared_ptr<GraphicsCommandBufferDX12> commandBuffer );
         Microsoft::WRL::ComPtr<ID3D12PipelineState> GetD3D12PipelineState() const;
 
-    protected:
-        virtual void OnFileChanged( Core::FileChangeEventArgs& e );
+        void OnFileChanged( Core::FileChangeEventArgs& e );
 
-    private:
         std::weak_ptr<DeviceDX12> m_Device;
 
         Microsoft::WRL::ComPtr<ID3D12Device> m_d3d12Device;

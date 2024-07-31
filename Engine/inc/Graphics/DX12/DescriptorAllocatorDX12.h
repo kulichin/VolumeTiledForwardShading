@@ -38,15 +38,13 @@ namespace Graphics
     {
     public:
         DescriptorAllocatorDX12( Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t numDescriptorsPerHeap = 256 );
-        virtual ~DescriptorAllocatorDX12();
+        ~DescriptorAllocatorDX12();
 
         D3D12_CPU_DESCRIPTOR_HANDLE Allocate( uint32_t numDescriptors = 1 );
 
-    protected:
 
         Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap( D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t numDescriptors );
 
-    private:
         using DescriptorHeapPool = std::vector< Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> >;
 
         Microsoft::WRL::ComPtr<ID3D12Device> m_d3d12Device;

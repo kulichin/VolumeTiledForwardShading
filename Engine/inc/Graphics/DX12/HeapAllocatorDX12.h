@@ -61,11 +61,9 @@ namespace Graphics
          */
         void Free();
 
-    protected:
         std::shared_ptr<DynamicBufferDX12> RequestBuffer();
         std::shared_ptr<DynamicBufferDX12> CreateBuffer();
 
-    private:
         using DynamicBufferPool = std::queue< std::shared_ptr<DynamicBufferDX12> >;
 
         std::weak_ptr<DeviceDX12> m_Device;

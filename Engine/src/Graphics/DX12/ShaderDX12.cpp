@@ -111,6 +111,11 @@ ShaderType ShaderDX12::GetType() const
     return m_ShaderType;
 }
 
+void ShaderDX12::OnFileChanged( Core::FileChangeEventArgs& e )
+{
+    FileChanged( e );
+}
+
 bool ShaderDX12::LoadShaderFromString( ShaderType type, const std::string& source, const std::wstring& _sourceFileName, const std::string& entryPoint, const ShaderMacros& shaderMacros, const std::string& _profile )
 {
     ComPtr<ID3DBlob> d3dShaderBlob;

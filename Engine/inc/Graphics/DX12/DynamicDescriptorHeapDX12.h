@@ -65,7 +65,7 @@ namespace Graphics
     {
     public:
         DynamicDescriptorHeapDX12( Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t numDescriptorsPerHeap = MAX_NUM_DESCRIPTORS_PER_ROOT_SIGNATURE );
-        virtual ~DynamicDescriptorHeapDX12();
+        ~DynamicDescriptorHeapDX12();
 
         /**
          * Copy the descriptors to a cached descriptor location.

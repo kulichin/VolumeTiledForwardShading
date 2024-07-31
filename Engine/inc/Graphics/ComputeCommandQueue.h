@@ -32,22 +32,3 @@
 
 #include "CopyCommandQueue.h"
 
-namespace Graphics
-{
-    class Fence;
-    class ComputeCommandBuffer;
-
-    class ENGINE_DLL ComputeCommandQueue : public CopyCommandQueue
-    {
-    public:
-        /**
-        * Creates a compute command buffer that can be used to submit compute commands to the queue.
-        */
-        virtual std::shared_ptr<ComputeCommandBuffer> GetComputeCommandBuffer() = 0;
-
-        /**
-         * Get the GPU frequency of queries running on this queue.
-         */
-        virtual uint64_t GetGPUFrequency() const = 0;
-    };
-}
